@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { signOut } from "@/app/actions/auth";
 import { createClient } from "@/lib/supabase/server";
+import { hasSupabaseEnv } from "@/lib/supabase/env";
 
 export async function AppHeader() {
+  if (!hasSupabaseEnv) return null;
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   const userId = data?.claims.sub;
